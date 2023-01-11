@@ -21,7 +21,7 @@ func newInternal(fileName string) (*DBFile, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &DBFile{Offset: stat.Size(), File: file}, nil
+	return &DBFile{File: file, Offset: stat.Size()}, nil
 }
 
 // NewDBFile 创建一个新的数据文件
@@ -39,9 +39,11 @@ func NewMergeDBFile(path string) (*DBFile, error) {
 // Read 从 offset 处开始读取
 func (df *DBFile) Read(offset int64) (e *Entry, err error) {
 	buf := make([]byte, entryHeaderSize)
+	//从offset开始读取buf个字节
 	if _, err = df.File.ReadAt(buf, offset); err != nil {
 		return
 	}
+
 	if e, err = Decode(buf); err != nil {
 		return
 	}

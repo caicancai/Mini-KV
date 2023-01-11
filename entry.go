@@ -18,6 +18,7 @@ type Entry struct {
 	Mark      uint16
 }
 
+// 新建Entry对象
 func NewEntry(key, value []byte, mark uint16) *Entry {
 	return &Entry{
 		Key:       key,
@@ -28,6 +29,7 @@ func NewEntry(key, value []byte, mark uint16) *Entry {
 	}
 }
 
+// 得到Entry的大小
 func (e *Entry) GetSize() int64 {
 	return int64(entryHeaderSize + e.KeySize + e.ValueSize)
 }
